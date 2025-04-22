@@ -1,0 +1,12 @@
+image:
+  repository: payment-processor-api
+  tag: "0.0.1-SNAPSHOT"
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8080
+
+# Настройки OTel / логирования можно прокинуть сюда, если нужно
+env: []

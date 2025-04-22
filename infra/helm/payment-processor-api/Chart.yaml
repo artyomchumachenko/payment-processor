@@ -1,0 +1,5 @@
+apiVersion: v2
+name: payment-processor-api
+description: Helm chart for payment-processor API service
+version: 0.0.1
+appVersion: "0.0.1-SNAPSHOT"

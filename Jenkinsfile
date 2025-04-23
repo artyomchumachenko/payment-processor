@@ -14,45 +14,13 @@ pipeline {
       }
     }
 
-    stage('Build in JDK-21 Container') {
-      agent {
-        dockerContainer {
-          image 'eclipse-temurin:21-jdk'  // образ с Java 21
-        }
-      }
+    stage('Build API Module') {
       steps {
-        sh 'mvn -B clean package -DskipTests'
+        sh 'mvn -B -pl api -am clean package -DskipTests'
       }
-    }
-
-    stage('Minikube & Build Image') {
-      steps {
-        sh """
-          # 1) Запустить (либо убедиться, что запущен) Minikube
-          minikube start
-
-          # 2) Построить образ прямо в Minikube
-          minikube image build \
-            --file=./Dockerfile \
-            -t ${IMAGE_NAME}:${IMAGE_TAG} \
-            .
-        """
-      }
-    }
-
-    stage('Helm Deploy') {
-      when {
-        branch pattern: '^release\\/.*', comparator: 'REGEXP'
-      }
-      steps {
-        dir('infra/helm/payment-processor-api') {
-          sh """
-            # Убедиться, что kubectl смотрит на Minikube
-            kubectl config use-context minikube
-
-            helm upgrade --install payment-processor-api . \
-              --set image.tag=${IMAGE_TAG}
-          """
+      post {
+        always {
+          archiveArtifacts artifacts: 'api/target/*.jar', fingerprint: true
         }
       }
     }

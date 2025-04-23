@@ -51,6 +51,7 @@ pipeline {
         expression { false } // Отключено, т.к. используем локальный демоник minikube
       }
       steps {
+        echo 'Stage skipped: Push Image (optional)'
         // docker.withRegistry('https://my.registry:5000', 'credentials-id') {
         //   docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push()
         // }

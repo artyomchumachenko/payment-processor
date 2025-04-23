@@ -14,14 +14,15 @@ pipeline {
       }
     }
 
-    stage('Build API Module') {
-      steps {
-        sh 'mvn -B -pl api -am clean package -DskipTests'
-      }
-      post {
-        always {
-          archiveArtifacts artifacts: 'api/target/*.jar', fingerprint: true
+    stage('Build in JDK-21 Container') {
+      agent {
+        dockerContainer {
+          image 'eclipse-temurin:21-jdk'  // образ с Java 21
+          args  '-u root'                 // если нужны права root
         }
+      }
+      steps {
+        sh 'mvn -B clean package -DskipTests'
       }
     }
 

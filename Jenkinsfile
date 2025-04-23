@@ -18,7 +18,6 @@ pipeline {
       agent {
         dockerContainer {
           image 'eclipse-temurin:21-jdk'  // образ с Java 21
-          args  '-u root'                 // если нужны права root
         }
       }
       steps {

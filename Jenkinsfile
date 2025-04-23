@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  tools {
+      maven 'M3'   // имя вашей установки Maven
+    }
 
   triggers {
     // Проверяем изменения в Git каждые 5 минут

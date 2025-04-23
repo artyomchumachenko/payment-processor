@@ -1,10 +1,5 @@
 pipeline {
-  agent {
-      docker {
-        image 'eclipse-temurin:21-jdk'  // или другой образ JDK 21
-        args  '-u root'                // если нужны root-права
-      }
-    }
+  agent any
   tools {
     maven 'M3'
   }
